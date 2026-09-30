@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 """
-soc_helper.py — Búsqueda de IOC y resumen de alertas SOC.
-Acme Fintech SOC — Challenge de triage.
+soc_helper.py — Script de apoyo: búsqueda de IOC y/o resumen de alertas, ejecutable por CLI con manejo básico de errores.
 
 Uso:
   python soc_helper.py --alerts alertas_dataset_v2.json --summary
   python soc_helper.py --alerts alertas_dataset_v2.json --ioc 45.146.164.110
   python soc_helper.py --logs logs_soporte/auth_logs.json logs_soporte/edr_events.json logs_soporte/vpc_flow_logs.json --ioc 194.36.191.55
 
-Requiere: Python 3.11+
 """
 from __future__ import annotations
 
