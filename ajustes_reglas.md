@@ -1,4 +1,4 @@
-# Afinado de Reglas — Acme Fintech
+# Afinado de Reglas
 
 **Referencia:** `reglas_actuales.md`
 
