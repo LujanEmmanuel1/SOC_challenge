@@ -1,4 +1,4 @@
-# Correlación — Caso fmartinez
+# Correlación 
 
 **Referencia:** SIEM-1001, SIEM-1004, SIEM-1006
 
