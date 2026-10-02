@@ -15,11 +15,15 @@ Resolución del challenge de Triage, Afinado y Detección de Alertas SOC sobre u
 │   ├── edr_events.json
 │   └── vpc_flow_logs.json
 ├── soc_helper.py
+├── webhook_notify.py
 ├── triage.csv
 ├── ajustes_reglas.md
 ├── regla_nueva.md
 ├── correlacion.md
-└── metricas_turno.md
+├── metricas_turno.md
+├── resumen_turno.md
+├── reporte_escalamiento.md
+└── whitelist.yaml
 ```
 
 ## Cómo usar el script de apoyo
@@ -77,3 +81,25 @@ Ver `regla_nueva.md`. Detecta la cadena Office → PowerShell encoded → descar
 - El inventario de activos no está en el repo; algunas validaciones quedan como "pendientes".
 - Los % FP se calculan sobre 1 disparo por regla. En producción se recalculan con más volumen.
 - No se incluye whitelist de IPs/dominios de confianza (queda como mejora propuesta).
+
+## Bonus implementados
+
+| Bonus | Archivo | Descripción |
+|-------|---------|-------------|
+| Mapeo MITRE ATT&CK | `triage.csv` (columna `mitre_technique`) | Técnica por alerta |
+| Whitelist configurable | `whitelist.yaml` | 5 entradas con justificación, owner y fecha de revisión |
+| Reporte de escalamiento | `reporte_escalamiento.md` | 1 página con IoCs y acciones |
+| Shift handover | `resumen_turno.md` | Estado del turno para el próximo analista |
+| Notificación por webhook | `webhook_notify.py` | Envía alertas escaladas a un endpoint configurable |
+
+### Uso del webhook
+
+```bash
+# Dry-run (no envía, solo imprime el payload)
+python webhook_notify.py --alerts alertas_dataset_v2.json --url https://hooks.example.com/soc --dry-run
+
+# Envío real
+python webhook_notify.py --alerts alertas_dataset_v2.json --url https://hooks.example.com/soc
+```
+
+**Nota:** el filtro por severidad (`High`, `Critical`) es una simplificación del challenge. En producción, el webhook debería filtrarse por `action=Escalar` del triage previo (`triage.csv`), no por severidad del SIEM.
