@@ -1,0 +1,42 @@
+# Whitelist de IPs/dominios confiables
+# Revisión obligatoria cada 90 días. Owner global: SOC Lead.
+
+- id: WL-001
+  type: ip
+  value: 10.50.2.15
+  reason: "Scanner Qualys programado (job qualys-scan-*)"
+  owner: "infra-sec@acmefintech.com"
+  review_date: "2026-11-15"
+  scope: "regla:port_scan"
+
+- id: WL-002
+  type: ip_range
+  value: "10.50.9.0/24"
+  reason: "Servidor Nagios / NRPE health checks (puerto 5666)"
+  owner: "ops@acmefintech.com"
+  review_date: "2026-11-15"
+  scope: "regla:high_connection_rate"
+
+- id: WL-003
+  type: ip_range
+  value: "142.250.0.0/16"
+  reason: "Google Workspace (workspace.google.com)"
+  owner: "it@acmefintech.com"
+  review_date: "2026-11-15"
+  scope: "regla:vpc_egress_baseline"
+
+- id: WL-004
+  type: ip_range
+  value: "200.45.10.0/24"
+  reason: "VPN corporativa — PoP Buenos Aires"
+  owner: "netsec@acmefintech.com"
+  review_date: "2026-11-15"
+  scope: "regla:impossible_travel"
+
+- id: WL-005
+  type: ip
+  value: "85.214.20.12"
+  reason: "VPN corporativa — PoP Madrid"
+  owner: "netsec@.com"
+  review_date: "2026-11-15"
+  scope: "regla:impossible_travel"
