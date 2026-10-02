@@ -56,20 +56,30 @@ FROM dl d JOIN ps p ON d.host = p.host AND d.user = p.user;
 
 ## Umbral
 
-**3 eslabones en ≤10 min.** Bajo a propósito: la cadena completa es rarísima en actividad legítima.
+La cadena completa es tan rara que no genera ruido.
 
-- Office → PS: 2 min (macro ejecuta rápido)
-- PS → descarga: 10 min (margen a payloads que duermen)
-- Requiere `-enc` + `-nop/-w hidden` (evasión explícita)
+• Office → PS: 2 min (la macro arranca al toque).
+• PS → Descarga: 10 min (margen por si el payload duerme).
+• Filtro estricto: Exige `-enc` + `-nop` o `-w hidden` (evasión pura).
 
 ---
 
 ## ¿Por qué no dispara con actividad legítima?
 
-- Usuario abriendo `.docm` legítimo puede spawnear PS, **no con `-enc -nop -w hidden`**.
-- Admin con `certutil -urlcache` **no tiene winword.exe como padre**.
-- Backups con `7z.exe` usan otro `parent_process`.
+• Ningún usuario abre un documento común que ejecute un PS oculto y codificado.
+• Ningún admin corre certutil teniendo a Word (winword.exe) como proceso padre.
+• Los scripts de backup usan sus propios procesos (ej. 7z.exe), no Office.
 
 ## Trade-off
 
-Relajar `-enc` a cualquier PS → disparan macros legítimas. Subir la ventana a 30 min → se pierde el timing. 10 min es el equilibrio.
+Si aflojamos el `-enc`, te tapan las macros legales de TI. Si subís a 30 min, la alerta llega tarde. 10 minutos es el punto justo.
+
+## MITRE ATT&CK
+
+| Técnica | Descripción |
+|---------|-------------|
+| T1566.001 | Phishing: adjunto .docm |
+| T1059.001 | PowerShell |
+| T1053.005 | Scheduled Task (persistencia) |
+| T1105 | Ingress Tool Transfer (certutil) |
+| T1560.001 | Archive Collected Data (7z) |
